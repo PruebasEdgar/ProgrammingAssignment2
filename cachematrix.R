@@ -3,12 +3,13 @@
 ## This script contains two functions: makeCacheMatrix and cacheSolve. These function are used 
 ## to create a special matrix object and calculate its inverse. The functions allow to caching 
 ## both matrix and inverse in an environment that is different from the current environment.
-##
+###
 ## makeCacheMatrix creates a special matrix object and associates four functions to it: set, 
-## get, setinverse and getinverse, where "inverse" is inverse of the matrix.
+## get, set_inv and get_inv, where "inv" is the inverse of the matrix.
 ## Returned objetc: LIST CLASS
 
-makeCacheMatrix <- function(x = matrix()) {
+makeCacheMatrix <- function(mat = matrix()) {
+			
 			inv_mat = NULL
 			
 			set <- function(m) {
@@ -27,20 +28,23 @@ makeCacheMatrix <- function(x = matrix()) {
 
 ## cacheSolve calculates the inverse of the matrix object created with makeCacheMatrix function.
 ## If the matrix has not changed and if its inverse has been calculated before, then 
-## cacheSolve brings the inverse from the cache. If not, then will calculate it from scratch.
+## cacheSolve brings the inverse from the cache. If not, then it will be calculated from cratch.
+## Input (mat): makeCacheMatrix CLASS OBJECT.
 ## Returned objetc: MATRIX CLASS
 
-cacheSolve <- function(mat, ...) {
+cacheSolve <- function(mat) {
 		
-		inv_mat <- x$get_inv()
+		inv_mat <- mat$get_inv()
 
 		if(!is.null(inv_mat)) {
-			message(inverse cached!")
+			message("recovering inverse matrix from cache")
 			return(inv_mat)
 				
        		}
+		message("calculating inverse matrix")
 		data <- mat$get()
 		inv_mat <- solve(data)
 		mat$set_inv(inv_mat)
+
 		inv_mat
 }
